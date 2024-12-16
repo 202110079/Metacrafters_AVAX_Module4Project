@@ -25,6 +25,13 @@ contract Mtoken is ERC20{
         _burn(msg.sender, amount);
     }
 
+    function transfer(address to, uint256 amount) public override returns (bool) {
+        require(to != address(0), "Transfer to the zero address is not allowed");
+        require(balanceOf(msg.sender) >= amount, "Insufficient balance");
+        _transfer(msg.sender, to, amount);
+        return true;
+    }
+
     function transferOwnership(address newOwner) external onlyOwner {
         require(newOwner != address(0), "New owner is the zero address");
         owner = newOwner;
